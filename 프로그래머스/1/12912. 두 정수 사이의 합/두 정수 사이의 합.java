@@ -10,12 +10,12 @@ class Solution {
             for(long i = a; i <= b; i++){
                 answer = answer + i;
             }
-            return answer;
         }else{
             for(long i = b; i <= a; i++){
                 answer = answer + i;
             }
-            return answer;
         }
+        
+        return answer;
     }
 }
