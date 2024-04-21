@@ -1,14 +1,12 @@
 class Solution {
     
     public int GCD(int n, int m){
-        int a = n;
-        int b = m;
-        while(b > 0){
-            int mod = a;
-            a = b;
-            b = mod % a;
+        while(m > 0){
+            int mod = n;
+            n = m;
+            m = mod % n;
         }
-        return a;
+        return n;
     }
     public int[] solution(int n, int m) {
         int[] answer = new int[2];
