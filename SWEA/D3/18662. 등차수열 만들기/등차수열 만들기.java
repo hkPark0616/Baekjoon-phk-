@@ -66,7 +66,7 @@ class Solution
             StringBuilder sb = new StringBuilder();
             sb.append("#" + test_case + " ");
             
-            if(b - a == c - b){ // c - a = 2b
+            /*if(b - a == c - b){ // c - a = 2b
             	sb.append(0.0);
             }else{
             	 if(b - a > c - b){
@@ -76,8 +76,12 @@ class Solution
                  	result =  (a + c) - 2 * b;
                     sb.append(result / 2);
                  }
-            }
+            }*/
             
+            double left = b - a;
+            double right = c - b;
+            
+            sb.append(Math.abs(left - right) / 2);
             System.out.println(sb);
 
 		}
