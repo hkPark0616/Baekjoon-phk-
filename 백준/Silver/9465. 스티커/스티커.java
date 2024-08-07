@@ -10,7 +10,6 @@ public class Main {
 
 	public static int T;
 	public static int N;
-	public static StringBuilder sb = new StringBuilder();
 	
 	public static void main(String[] args) throws IOException{
 		// TODO Auto-generated method stub
@@ -33,7 +32,7 @@ public class Main {
 			}
 			
 			if (N==1) {
-				sb.append(Math.max(nums[0][0], nums[1][0])).append("\n");
+				System.out.println(Math.max(nums[0][0], nums[1][0]));
 				continue;
 			}
 			// 각 숫자에 visited 처리해줘야 하겠지, 그래야 먹을 수 있는 지 확인이 되니까??
@@ -65,12 +64,12 @@ public class Main {
 			
 			int ans = Math.max(dp[0][N-1], dp[1][N-1]);
 			
-			sb.append(ans).append("\n");
+			System.out.println(ans);
 			
 			
 			
 		}// end test
-	System.out.println(sb);
+	
 		
 	}
 
