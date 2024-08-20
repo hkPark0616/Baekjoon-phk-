@@ -69,7 +69,7 @@ class Solution
                 }
             }
             
-            int index = N / 2;
+            /*int index = N / 2;
             int n = N / 2;
             int range = 1;
             
@@ -85,7 +85,25 @@ class Solution
                 	index++;
                     n--;
                 }
-            }
+            }*/
+            			int n = 1;
+			int start = N / 2;
+			int m = N / 2;
+			
+			for(int i = 0; i < N; i++) {
+
+				for(int j = start; j < start + n; j++) {
+					sum += arr[i][j];
+				}
+				
+				if(i < N / 2) {
+					start--;
+					n += 2;
+				}else {
+					start++;
+					n-= 2;
+				}
+			}
 
 
            System.out.println("#" + test_case + " " + sum);
