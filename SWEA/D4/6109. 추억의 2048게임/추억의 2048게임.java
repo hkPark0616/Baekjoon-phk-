@@ -127,7 +127,6 @@ class Solution
 				if(arr[i][j - 1] == arr[i][j]) {
 					arr[i][j - 1] *= 2;
 					arr[i][j] = 0;
-					j += 1;
 				}
 			}
 		}
@@ -165,7 +164,6 @@ class Solution
 				if(arr[i][j - 1] == arr[i][j]) {
 					arr[i][j] *= 2;
 					arr[i][j - 1] = 0;
-					j -= 1;
 				}
 			}
 		}
@@ -205,7 +203,6 @@ class Solution
 				if(arr[j - 1][i] == arr[j][i]) {
 					arr[j - 1][i] *= 2;
 					arr[j][i] = 0;
-					j += 1;
 				}
 			}
 		}
@@ -247,7 +244,6 @@ class Solution
 				if(arr[j - 1][i] == arr[j][i]) {
 					arr[j - 1][i] = 0;
 					arr[j][i] *= 2;
-					j -= 1;
 				}
 			}
 		}
