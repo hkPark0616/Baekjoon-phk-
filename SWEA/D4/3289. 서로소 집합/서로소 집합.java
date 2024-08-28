@@ -20,17 +20,17 @@ public class Solution {
 			
 			answer = 0;
 			parent = new int[N + 1];
-            for(int i = 0; i <= N; i++) {
-                parent[i] = i;
-            }
-				
+			for(int i = 0; i <= N; i++) {
+				parent[i] = i;
+			}
+			
 			sb.append("#" + t + " ");
 			for(int m = 0; m < M; m++) {
 				st = new StringTokenizer(br.readLine());
 				int g = Integer.parseInt(st.nextToken());
 				int a = Integer.parseInt(st.nextToken());
 				int b = Integer.parseInt(st.nextToken());
-				
+
 				if(g == 0) {
 					union(a, b);
 				}else {
@@ -51,10 +51,8 @@ public class Solution {
 	static void union(int a, int b) {
 		int a1 = find(a);
 		int b1 = find(b);
-		if(a1 > b1) {
+		if(a1 != b1) {
 			parent[b1] = a1;
-		}else {
-			parent[a1] = b1;
 		}
 	}
 	
@@ -66,10 +64,6 @@ public class Solution {
 	}
 	
 	static boolean isSame(int a, int b) {
-		if(find(a) == find(b)) {
-			return true;
-		}else {
-			return false;
-		}
+		return find(a) == find(b);
 	}
 }
