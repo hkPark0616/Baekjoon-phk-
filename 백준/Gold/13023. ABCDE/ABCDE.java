@@ -54,7 +54,7 @@ public class Main {
 			int nextNode = graph.get(start).get(i);
 			
 			// 다음 노드 아직 방문 안했으면 방문함
-			if(!visited[nextNode]) {
+			if(!visited[nextNode] && answer == 0) {
 				dfs(cnt + 1, nextNode);
 			}
 		}
