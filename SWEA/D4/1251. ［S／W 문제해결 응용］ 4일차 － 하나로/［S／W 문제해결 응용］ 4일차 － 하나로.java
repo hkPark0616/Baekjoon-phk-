@@ -71,19 +71,20 @@ public class Solution {
 			}
 			
 			int size = pq.size();
-			answer = 0;
-			BigDecimal test = new BigDecimal(answer);
+			
+			//
+			BigDecimal answer = new BigDecimal(0);
 			for(int i = 0; i < size; i++) {
 				Node node = pq.poll();
 
 				if(!isSame(node.to, node.from)) {
 					BigDecimal val = new BigDecimal(E * Math.pow(node.weight, 2));
-					test = test.add(val);
+					answer = answer.add(val);
 					union(node.to, node.from);
 				}
 			}
 			
-			System.out.println("#" + t + " " + test.setScale(0, BigDecimal.ROUND_HALF_UP));
+			System.out.println("#" + t + " " + answer.setScale(0, BigDecimal.ROUND_HALF_UP));
 			
 		}
 	}
