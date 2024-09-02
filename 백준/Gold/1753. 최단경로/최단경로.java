@@ -11,6 +11,7 @@ public class Main {
 	static int V, E, K, dist[];
 	static int INF = Integer.MAX_VALUE;
 	static List<List<Node>> graph;
+	static StringBuilder sb = new StringBuilder();
 	
 	static class Node implements Comparable<Node>{
 		// 정점 번호, 가중치
@@ -43,6 +44,7 @@ public class Main {
 		for(int i = 0; i <= V; i++) {
 			graph.add(new ArrayList<>());
 		}
+		
 		dist = new int[V + 1];
 		Arrays.fill(dist, INF);
 
@@ -56,6 +58,8 @@ public class Main {
 		}
 		
 		Dijkstra(K);
+		
+		System.out.println(sb);
 
 	}
 	
@@ -86,8 +90,8 @@ public class Main {
 		}
 		
 		for(int i = 1; i < dist.length; i++) {
-			if(dist[i] == INF) System.out.println("INF");
-			else System.out.println(dist[i]);
+			if(dist[i] == INF) sb.append("INF\n");
+			else sb.append(dist[i] + "\n");
 		}
 		
 	}
