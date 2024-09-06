@@ -6,8 +6,8 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Solution {
-	static int N, M;
-	static int[][] adjMatrix;
+	static int N, M, count;
+	static int[][] adjMatrix, radjMatrix;
 	public static void main(String[] args) throws IOException{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -22,22 +22,35 @@ public class Solution {
 			M = Integer.parseInt(st.nextToken());
 			
 			adjMatrix = new int[N + 1][N + 1];
+			radjMatrix = new int[N + 1][N + 1];
 			
 			for(int i = 0; i < M; i++) {
 				st = new StringTokenizer(br.readLine());
 				int a = Integer.parseInt(st.nextToken());
 				int b = Integer.parseInt(st.nextToken());
 				
-				adjMatrix[a][b] = 1;
+				radjMatrix[b][a] = adjMatrix[a][b] = 1;
 				
 			}
 			
 			// 각 학생마다 자신보다 큰, 작은 학생 각각 탐색
 			int answer = 0;
 			for(int i = 1; i <= N; i++) {
-				if(gtBFS(i) + ltBFS(i) == N - 1) {
-					answer++;
-				}
+				count = 0;
+				// bfs
+//				if(gtBFS(i) + ltBFS(i) == N - 1) {
+//					answer++;
+//				}
+				
+				// dfs
+//				gtDFS(i, new boolean[N + 1]);
+//				ltDFS(i, new boolean[N + 1]);
+//				if(count == N - 1) answer++;
+				
+				// dfs 최적화
+				dfs(i, adjMatrix, new boolean[N + 1]);
+				dfs(i, radjMatrix, new boolean[N + 1]);
+				if(count == N - 1) answer++;
 			}
 			
 			System.out.println("#" + t + " " + answer);
@@ -86,5 +99,35 @@ public class Solution {
 			}
 		}
 		return cnt;
+	}
+	
+	static void gtDFS(int cur, boolean[] visited) {
+		visited[cur] = true;
+		for(int i = 1; i <= N; i++) {
+			if(!visited[i] && adjMatrix[cur][i] != 0) {
+				gtDFS(i, visited);
+				count++;
+			}
+		}
+	}
+	
+	static void ltDFS(int cur, boolean[] visited) {
+		visited[cur] = true;
+		for(int i = 1; i <= N; i++) {
+			if(!visited[i] && adjMatrix[i][cur] != 0) {
+				ltDFS(i, visited);
+				count++;
+			}
+		}
+	}
+	
+	static void dfs(int cur, int[][] matrix, boolean[] visited) {
+		visited[cur] = true;
+		for(int i = 1; i <= N; i++) {
+			if(!visited[i] && matrix[cur][i] != 0) {
+				dfs(i, matrix, visited);
+				count++;
+			}
+		}
 	}
 }
