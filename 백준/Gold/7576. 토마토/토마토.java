@@ -45,11 +45,13 @@ public class Main {
             int x = temp[0], y = temp[1];
             cnt = temp[2];
 
+            visited[x][y] = true;
+
             for(int d = 0; d < 4; d++){
                 int nx = x + delX[d];
                 int ny = y + delY[d];
 
-                if(nx >= 0 && nx < N && ny >= 0 && ny < M && box[nx][ny] == 0) {
+                if(nx >= 0 && nx < N && ny >= 0 && ny < M && box[nx][ny] == 0 && !visited[nx][ny]) {
                     visited[nx][ny] = true;
                     box[nx][ny] = 1;
                     queue.add(new int[]{nx, ny, cnt + 1});
