@@ -88,7 +88,7 @@ public class Solution {
                 int nextX = currentX + deltas[d][0];
                 int nextY = currentY + deltas[d][1];
 
-                if(nextX >= 0 && nextX < N && nextY >= 0 && nextY < N && !visited[nextX][nextY]) {
+                if(nextX >= 0 && nextX < N && nextY >= 0 && nextY < N) {
                     int next = dist[currentX][currentY] + map[nextX][nextY];
                     if(dist[nextX][nextY] > next) {
                         dist[nextX][nextY] = next;
