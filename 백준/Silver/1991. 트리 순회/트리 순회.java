@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+    static StringBuilder sb = new StringBuilder();
     static Node[] tree;
     static class Node{
         char value;
@@ -46,18 +47,20 @@ public class Main {
         }
 
         preorder(tree[0]);
-        System.out.println();
+        sb.append("\n");
 
         inorder(tree[0]);
-        System.out.println();
+        sb.append("\n");
 
         postorder(tree[0]);
-        System.out.println();
+        sb.append("\n");
+
+        System.out.println(sb);
     }
 
     static void preorder(Node node){
         if(node == null) return;
-        System.out.print(node.value);
+        sb.append(node.value);
         preorder(node.left);
         preorder(node.right);
     }
@@ -65,7 +68,7 @@ public class Main {
     static void inorder(Node node){
         if(node == null) return;
         inorder(node.left);
-        System.out.print(node.value);
+        sb.append(node.value);
         inorder(node.right);
     }
 
@@ -73,6 +76,6 @@ public class Main {
         if(node == null) return;
         postorder(node.left);
         postorder(node.right);
-        System.out.print(node.value);
+        sb.append(node.value);
     }
 }
