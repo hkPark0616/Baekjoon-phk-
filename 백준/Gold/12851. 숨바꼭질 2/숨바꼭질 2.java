@@ -44,6 +44,7 @@ public class Main {
                 }else if(visited[cur] == min){
                     cnt++;
                 }
+                continue;
             }
             
             // 이동 가능한 다음 위치 배열
