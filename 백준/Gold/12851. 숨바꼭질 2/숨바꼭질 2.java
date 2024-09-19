@@ -34,7 +34,10 @@ public class Main {
 
         while(!queue.isEmpty()){
             int cur = queue.poll();
-
+            
+            // 현재 위치까지 걸린 시간이 최소 시간보다 크면 넘김
+            if (visited[cur] > min) continue;
+            
             // 동생을 찾았는데 더 작은 시간이 걸리면 갱신 해주고 cnt는 다시 1로
             // 똑같은 시간이 걸렸으면 방법 + 1
             if(cur == d) {
