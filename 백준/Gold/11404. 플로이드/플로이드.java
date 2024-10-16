@@ -7,6 +7,7 @@ public class Main {
     static int N, M;
     static int INF = 1000000000;
     static int[][] graph;
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -33,8 +34,9 @@ public class Main {
         }
 
         floyd();
-
         print();
+
+        System.out.println(sb.toString());
     }
 
     static void floyd(){
@@ -52,10 +54,10 @@ public class Main {
     static void print() {
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
-                if(graph[i][j] == INF) System.out.print("0 ");
-                else System.out.print(graph[i][j] + " ");
+                if(graph[i][j] == INF) sb.append("0").append(" ");
+                else sb.append(graph[i][j]).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
     }
 }
