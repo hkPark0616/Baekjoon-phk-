@@ -63,23 +63,22 @@ public class Main {
         }
         Collections.reverse(path); // 경로를 뒤집음
 
+        StringBuilder sb = new StringBuilder();
         // 최소 비용
-        System.out.println(dist[D]);
+        sb.append(dist[D] + "\n");
         // 방문 도시 개수
-        System.out.println(path.size());
+        sb.append(path.size() + "\n");
         // 방문 도시
         for(int city : path) {
-            System.out.print(city + " ");
+            sb.append(city + " ");
         }
+
+        System.out.println(sb);
     }
 
     static void Dijkstra(int start){
         PriorityQueue<Node> pq = new PriorityQueue<>();
         boolean[] visited = new boolean[N + 1];
-        List<List<Integer>> paths = new ArrayList<>();
-        for(int i = 0; i <= N; i++){
-            paths.add(new ArrayList<>());
-        }
 
         dist[start] = 0;
 
