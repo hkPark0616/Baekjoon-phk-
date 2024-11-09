@@ -7,11 +7,10 @@ public class Main {
     static int N, M, dist[];
     static int s, d;
     static List<List<Node>> graph;
+    static int INF = Integer.MAX_VALUE;
 
     static class Node implements Comparable<Node> {
-        int vertex;
-        int weight;
-
+        int vertex, weight;
         public Node(int vertex, int weight) {
             this.vertex = vertex;
             this.weight = weight;
@@ -19,13 +18,14 @@ public class Main {
 
         @Override
         public int compareTo(Node o) {
-            return weight - o.weight;
+            return this.weight - o.weight;
         }
     }
-    static int INF = Integer.MAX_VALUE;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         N = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
@@ -53,7 +53,6 @@ public class Main {
         d = Integer.parseInt(st.nextToken());
 
         Dijkstra(s);
-
     }
 
     static void Dijkstra(int s){
@@ -62,7 +61,7 @@ public class Main {
 
         dist[s] = 0;
 
-        pq.offer(new Node(s, 0));
+        pq.add(new Node(s, 0));
 
         while(!pq.isEmpty()){
             Node node = pq.poll();
@@ -73,10 +72,10 @@ public class Main {
             visited[cur] = true;
 
             List<Node> next = graph.get(cur);
-            for(int i = 0; i < next.size(); i++){
-                if(dist[next.get(i).vertex] > dist[cur] + next.get(i).weight){
-                    dist[next.get(i).vertex] = dist[cur] + next.get(i).weight;
-                    pq.offer(new Node(next.get(i).vertex, dist[next.get(i).vertex]));
+            for(Node n : next){
+                if(dist[n.vertex] > dist[cur] + n.weight){
+                    dist[n.vertex] = dist[cur] + n.weight;
+                    pq.offer(new Node(n.vertex, dist[n.vertex]));
                 }
             }
         }
