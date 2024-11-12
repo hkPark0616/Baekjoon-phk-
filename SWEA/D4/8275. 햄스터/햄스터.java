@@ -63,6 +63,12 @@ public class Solution {
             }
             return;
         }
+        
+        // 현재 총 햄스터 수 + 남은 칸에 최대 값이 최대 햄스터 수보다 적다면 더 이상 탐색하지 않음
+        if(sum + (N - cnt) * X <= maxHamsters){
+            return;
+        }
+        
         // 각 우리에 0부터 X까지의 햄스터 수를 배치 시도
         for (int i = 0; i <= X; i++) {
             cages[cnt] = i;
