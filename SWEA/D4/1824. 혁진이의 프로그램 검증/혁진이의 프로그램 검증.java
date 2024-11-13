@@ -1,44 +1,43 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.StringTokenizer;
 
-public class Solution {
+class Solution {
     static int R, C;
     static char[][] map;
     static boolean[][][][] visited;
-    static int[] dr = {-1, 1, 0, 0}; // 상, 하, 좌, 우
-    static int[] dc = {0, 0, -1, 1};
+    static int[][] deltas = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-    static class State {
-        int r, c, mem, dir;
-        public State(int r, int c, int mem, int dir) {
-            this.r = r;
-            this.c = c;
-            this.mem = mem;
+    static class State{
+        int x, y, m, dir;
+
+        public State(int x, int y, int m, int dir) {
+            this.x = x;
+            this.y = y;
+            this.m = m;
             this.dir = dir;
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int T = Integer.parseInt(st.nextToken());
 
-        for (int t = 1; t <= T; t++) {
+        for(int t = 1; t <= T; t++){
             st = new StringTokenizer(br.readLine());
             R = Integer.parseInt(st.nextToken());
             C = Integer.parseInt(st.nextToken());
             map = new char[R][C];
             visited = new boolean[R][C][16][4];
 
-            for (int r = 0; r < R; r++) {
-                String line = br.readLine();
-                for (int c = 0; c < C; c++) {
-                    map[r][c] = line.charAt(c);
+            for(int r = 0; r < R; r++){
+                String s = br.readLine();
+                for(int c = 0; c < C; c++){
+                    char ch = s.charAt(c);
+                    map[r][c] = ch;
                 }
             }
 
@@ -47,53 +46,54 @@ public class Solution {
     }
 
     static boolean bfs() {
-        Queue<State> queue = new LinkedList<>();
-        queue.add(new State(0, 0, 0, 3)); // 시작 위치 (0,0), 초기 메모리 0, 오른쪽 방향(3)
+        ArrayDeque<State> queue = new ArrayDeque<>();
+        queue.offer(new State(0, 0, 0, 3));
         visited[0][0][0][3] = true;
 
-        while (!queue.isEmpty()) {
-            State state = queue.poll();
-            int r = state.r;
-            int c = state.c;
-            int mem = state.mem;
-            int dir = state.dir;
+        while(!queue.isEmpty()){
+            State cur = queue.poll();
+            int x = cur.x;
+            int y = cur.y;
+            int m = cur.m;
+            int dir = cur.dir;
 
-            char cmd = map[r][c];
-            switch (cmd) {
-                case '>': dir = 3; break;
+            char cmd = map[x][y];
+
+            switch(cmd){
                 case '<': dir = 2; break;
+                case '>': dir = 3; break;
                 case '^': dir = 0; break;
                 case 'v': dir = 1; break;
-                case '_': dir = (mem == 0) ? 3 : 2; break;
-                case '|': dir = (mem == 0) ? 1 : 0; break;
-                case '+': mem = (mem + 1) % 16; break;
-                case '-': mem = (mem == 0) ? 15 : mem - 1; break;
-                case '@': return true; // 프로그램 종료
+                case '_': dir = (m == 0) ? 3 : 2; break;
+                case '|': dir = (m == 0) ? 1 : 0; break;
                 case '?':
-                    // ? 명령어는 네 방향으로 각각 탐색
-                    for (int i = 0; i < 4; i++) {
-                        int nr = (r + dr[i] + R) % R;
-                        int nc = (c + dc[i] + C) % C;
-                        if (!visited[nr][nc][mem][i]) {
-                            visited[nr][nc][mem][i] = true;
-                            queue.add(new State(nr, nc, mem, i));
+                    for(int d = 0; d < 4; d++){
+                        int nx = (x + deltas[d][0] + R) % R;
+                        int ny = (y + deltas[d][1] + C) % C;
+
+                        if(!visited[nx][ny][m][d]){
+                            visited[nx][ny][m][d] = true;
+                            queue.offer(new State(nx, ny, m, d));
                         }
                     }
-                    continue;
+                    break;
+                case '.': break;
+                case '@': return true;
+                case '+': m = (m + 1) % 16; break;
+                case '-': m = (m == 0) ? 15 : m - 1; break;
                 default:
-                    if (Character.isDigit(cmd)) mem = cmd - '0';
+                    if(Character.isDigit(cmd)) m = cmd - '0'; break;
             }
 
-            // 다음 위치 계산 후 큐에 추가
-            int nr = (r + dr[dir] + R) % R;
-            int nc = (c + dc[dir] + C) % C;
+            int nx = (x + deltas[dir][0] + R) % R;
+            int ny = (y + deltas[dir][1] + C) % C;
 
-            if (!visited[nr][nc][mem][dir]) {
-                visited[nr][nc][mem][dir] = true;
-                queue.add(new State(nr, nc, mem, dir));
+            if(!visited[nx][ny][m][dir]){
+                visited[nx][ny][m][dir] = true;
+                queue.offer(new State(nx, ny, m, dir));
             }
         }
 
-        return false; // 프로그램 종료 문자를 만나지 않으면 NO
+        return false;
     }
 }
