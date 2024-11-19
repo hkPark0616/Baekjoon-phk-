@@ -44,6 +44,7 @@ public class Main {
         int size = pq.size();
         int answer = 0;
         int max = 0;
+        // 가장 유지비가 큰 길을 끊어서 유지비의 합이 최소가 되도록 하기 위함
         for(int i = 0; i < size; i++){
             Node node = pq.poll();
             int a = node.a;
