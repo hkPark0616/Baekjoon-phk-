@@ -52,13 +52,14 @@ public class Main {
 		for(int i = 1; i <= V; i++) {
 			if(indegree[i] == 0) {
 				queue.offer(i);
+                result.add(i);
 			}
 		}
 		
 		while(!queue.isEmpty()) {
 			// 현재 노드번호
 			int temp = queue.poll();
-			result.add(temp);
+			//result.add(temp);
 
 			// 꺼낸 노드의 인접한 노드
 			List<Integer> list = graph.get(temp);
@@ -72,6 +73,7 @@ public class Main {
 				// 간선 제거 후 진입 차수가 0이 된 정점을 큐에 넣음
 				if(indegree[list.get(i)] == 0) {
 					queue.offer(list.get(i));
+                    result.add(list.get(i));
 				}
 				
 			}
