@@ -1,11 +1,17 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.StringTokenizer;
 
 public class Solution {
-    static int N, W, H, map[][], arr[], copy[][], max;
-    static int[] delX = {-1, 0, 1, 0}, delY = {0, 1, 0, -1};
+    static int N, W, H, max;
+    static int[][] map, copy;
+    static int[] arr;
+    static int[][] deltas = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -19,6 +25,8 @@ public class Solution {
             H = Integer.parseInt(st.nextToken());
             map = new int[H][W];
             copy = new int[H][W];
+            arr = new int[N];
+
             for(int i = 0; i < H; i++){
                 st = new StringTokenizer(br.readLine());
                 for(int j = 0; j < W; j++){
@@ -27,10 +35,8 @@ public class Solution {
             }
 
             max = Integer.MAX_VALUE;
-            arr = new int[N];
 
             perm(0);
-
             System.out.println("#" + t + " " + max);
         }
     }
@@ -38,7 +44,7 @@ public class Solution {
     static void perm(int cnt){
         if(cnt == N){
             play();
-            calBricks();
+            calc();
             for(int i = 0; i < H; i++){
                 for(int j = 0; j < W; j++){
                     map[i][j] = copy[i][j];
@@ -51,6 +57,7 @@ public class Solution {
             arr[cnt] = i;
             perm(cnt + 1);
         }
+
     }
 
     static void play(){
@@ -69,26 +76,26 @@ public class Solution {
         }
     }
 
-    static void breakBricks(int row, int col){
+    static void breakBricks(int r, int c){
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[] {row, col, map[row][col]});
+        queue.add(new int[]{r, c, map[r][c]});
 
-        map[row][col] = 0;
+        map[r][c] = 0;
 
         while(!queue.isEmpty()){
             int[] cur = queue.poll();
-            int r = cur[0];
-            int c = cur[1];
-            int range = cur[2];
+            int x = cur[0];
+            int y = cur[1];
+            int w = cur[2];
 
-            for(int i = 0; i < range; i++){
+            for(int i = 0; i < w; i++){
                 for(int d = 0; d < 4; d++){
-                    int nr = r + delX[d] * i;
-                    int nc = c + delY[d] * i;
+                    int nx = x + deltas[d][0] * i;
+                    int ny = y + deltas[d][1] * i;
 
-                    if(nr >= 0 && nr < H && nc >= 0 && nc < W && map[nr][nc] > 0){
-                        queue.add(new int[] {nr, nc, map[nr][nc]});
-                        map[nr][nc] = 0;
+                    if(nx >= 0 && nx < H && ny >= 0 && ny < W && map[nx][ny] > 0){
+                        queue.add(new int[]{nx, ny, map[nx][ny]});
+                        map[nx][ny] = 0;
                     }
                 }
             }
@@ -111,11 +118,10 @@ public class Solution {
                     map[j][i] = st.pop();
                 }
             }
-
         }
     }
 
-    static void calBricks(){
+    static void calc(){
         int cnt = 0;
         for(int i = 0; i < H; i++){
             for(int j = 0; j < W; j++){
