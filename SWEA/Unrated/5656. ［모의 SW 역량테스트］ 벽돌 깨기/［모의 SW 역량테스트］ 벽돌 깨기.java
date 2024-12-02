@@ -1,8 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -37,6 +36,7 @@ public class Solution {
             max = Integer.MAX_VALUE;
 
             perm(0);
+
             System.out.println("#" + t + " " + max);
         }
     }
@@ -50,6 +50,7 @@ public class Solution {
                     map[i][j] = copy[i][j];
                 }
             }
+
             return;
         }
 
@@ -57,11 +58,11 @@ public class Solution {
             arr[cnt] = i;
             perm(cnt + 1);
         }
-
     }
 
     static void play(){
-        int r = 0, c = 0;
+        int r = 0;
+        int c = 0;
         for(int i = 0; i < N; i++){
             for(int j = 0; j < H; j++){
                 if(map[j][arr[i]] != 0){
@@ -77,13 +78,13 @@ public class Solution {
     }
 
     static void breakBricks(int r, int c){
-        Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{r, c, map[r][c]});
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        q.offer(new int[] {r, c, map[r][c]});
 
         map[r][c] = 0;
 
-        while(!queue.isEmpty()){
-            int[] cur = queue.poll();
+        while(!q.isEmpty()){
+            int[] cur = q.poll();
             int x = cur[0];
             int y = cur[1];
             int w = cur[2];
@@ -93,8 +94,8 @@ public class Solution {
                     int nx = x + deltas[d][0] * i;
                     int ny = y + deltas[d][1] * i;
 
-                    if(nx >= 0 && nx < H && ny >= 0 && ny < W && map[nx][ny] > 0){
-                        queue.add(new int[]{nx, ny, map[nx][ny]});
+                    if(nx >= 0 && ny >= 0 && nx < H && ny < W && map[nx][ny] > 0){
+                        q.offer(new int[] {nx, ny, map[nx][ny]});
                         map[nx][ny] = 0;
                     }
                 }
@@ -103,23 +104,25 @@ public class Solution {
     }
 
     static void gravity(){
-        Stack<Integer> st = new Stack<>();
+        Stack<Integer> stack = new Stack<>();
+
         for(int i = 0; i < W; i++){
             for(int j = 0; j < H; j++){
                 if(map[j][i] != 0){
-                    st.push(map[j][i]);
+                    stack.push(map[j][i]);
                 }
             }
 
             for(int j = H - 1; j >= 0; j--){
-                if(st.isEmpty()){
+                if(stack.isEmpty()){
                     map[j][i] = 0;
                 }else{
-                    map[j][i] = st.pop();
+                    map[j][i] = stack.pop();
                 }
             }
         }
     }
+
 
     static void calc(){
         int cnt = 0;
@@ -130,6 +133,7 @@ public class Solution {
                 }
             }
         }
+
         max = Math.min(cnt, max);
     }
 }
