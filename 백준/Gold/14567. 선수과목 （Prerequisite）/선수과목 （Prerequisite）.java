@@ -18,9 +18,8 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         indegree = new int[N + 1];
-
         graph = new ArrayList<>();
-        for(int i = 0; i <= N; i++){
+        for(int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
         }
 
@@ -30,12 +29,11 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
 
             graph.get(a).add(b);
+
             indegree[b]++;
         }
 
         topologySort();
-
-
     }
 
     static void topologySort(){
@@ -54,19 +52,17 @@ public class Main {
 
             List<Integer> list = graph.get(cur);
 
-            for(int i = 0; i < list.size(); i++){
-                int n = list.get(i);
+            for(int next: list){
+                indegree[next]--;
 
-                indegree[n]--;
-
-                if(indegree[n] == 0){
-                    q.offer(n);
-                    semester[n] = semester[cur] + 1;
+                if(indegree[next] == 0){
+                    q.offer(next);
+                    semester[next] = semester[cur] + 1;
                 }
             }
         }
 
-        for(int i = 1; i < semester.length; i++){
+        for(int i = 1; i <= N; i++){
             System.out.print(semester[i] + " ");
         }
     }
