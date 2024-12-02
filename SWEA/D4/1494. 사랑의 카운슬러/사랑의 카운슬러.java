@@ -3,11 +3,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Solution {
+public class Solution{
     static int N;
-    static long answer;
-    static int[][] pos;
+    static int[][] position;
     static boolean[] selected;
+    static long answer;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,52 +15,55 @@ public class Solution {
 
         int T = Integer.parseInt(st.nextToken());
 
-        for (int t = 1; t <= T; t++) {
+        for(int t = 1; t <= T; t++){
             st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());
-            answer = Long.MAX_VALUE;
-            pos = new int[N][2];
+
+            position = new int[N][2];
             selected = new boolean[N];
 
-            for (int i = 0; i < N; i++) {
+            for(int i = 0; i < N; i++){
                 st = new StringTokenizer(br.readLine());
                 int x = Integer.parseInt(st.nextToken());
                 int y = Integer.parseInt(st.nextToken());
 
-                pos[i][0] = x;
-                pos[i][1] = y;
+                position[i][0] = x;
+                position[i][1] = y;
             }
 
-            comb(0, 0);
+            answer = Long.MAX_VALUE;
+
+            combination(0, 0);
 
             System.out.println("#" + t + " " + answer);
         }
     }
 
-   static void comb(int start, int count) {
-        if (count == N / 2) {
-            calc();
+    static void combination(int start, int cnt){
+        if(cnt == N / 2){
+            vectorCalc();
             return;
         }
 
-        for (int i = start; i < N; i++) {
+        for(int i = start; i < N; i++){
             selected[i] = true;
-            comb(i + 1, count + 1);
+            combination(i + 1, cnt + 1);
             selected[i] = false;
         }
     }
 
-    static void calc() {
+    static void vectorCalc(){
         long sumX = 0;
         long sumY = 0;
 
-        for (int i = 0; i < N; i++) {
-            if (selected[i]) {
-                sumX += pos[i][0];
-                sumY += pos[i][1];
-            } else {
-                sumX -= pos[i][0];
-                sumY -= pos[i][1];
+
+        for(int i = 0; i < N; i++){
+            if(selected[i]){
+                sumX += position[i][0];
+                sumY += position[i][1];
+            }else{
+                sumX -= position[i][0];
+                sumY -= position[i][1];
             }
         }
 
