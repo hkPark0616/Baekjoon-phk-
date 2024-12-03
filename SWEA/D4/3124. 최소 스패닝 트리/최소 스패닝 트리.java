@@ -1,7 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Solution {
     static int V, E, parent[];
@@ -17,8 +18,8 @@ public class Solution {
         }
 
         @Override
-        public int compareTo(Edge o1) {
-            return this.w - o1.w;
+        public int compareTo(Edge o) {
+            return this.w - o.w;
         }
     }
 
@@ -34,8 +35,9 @@ public class Solution {
             E = Integer.parseInt(st.nextToken());
 
             parent = new int[V + 1];
-            for(int i = 0; i <= V; i++)
+            for(int i = 0; i <= V; i++){
                 parent[i] = i;
+            }
 
             pq = new PriorityQueue<>();
             for(int i = 0; i < E; i++){
@@ -43,11 +45,12 @@ public class Solution {
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
                 int w = Integer.parseInt(st.nextToken());
+
                 pq.offer(new Edge(a, b, w));
             }
 
-            int size = pq.size();
             answer = 0;
+            int size = pq.size();
             for(int i = 0; i < size; i++){
                 Edge e = pq.poll();
 
@@ -65,7 +68,7 @@ public class Solution {
         a = parent[a];
         b = parent[b];
 
-        if(a != b) {
+        if(a != b){
             parent[b] = a;
         }
     }
