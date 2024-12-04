@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Solution {
-    static int N;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -13,16 +12,20 @@ public class Solution {
 
         for(int t = 1; t <= T; t++){
             st = new StringTokenizer(br.readLine());
-            N = Integer.parseInt(st.nextToken());
-            int[] dp = new int[N + 1];
+            int N = Integer.parseInt(st.nextToken());
 
+            int[] dp = new int[N + 1];
+            int answer = 0; // 오름차순으로 서는 가장 긴 부분 수열의 길이
+    
             st = new StringTokenizer(br.readLine());
-            int answer = 0;
+
             for(int i = 0; i < N; i++){
-                int children =  Integer.parseInt(st.nextToken());
-                // 일반 LIS로 하면 시간초과가...
-                // 현재 원소가 이전 원소보다 크고, 가장 긴 증가하는 부분 수열을 확장할 수 있다면, 그 수열을 길이를 1 증가시켜서 갱신
+                int children = Integer.parseInt(st.nextToken());
+
+                // children 번호의 학생이 들어올 때까지의 오름차순 수열의 길이
+                // 이전 번호 학생들의 수열 길이에 1을 더하여 현재 학생을 포함한 수열의 길이를 갱신
                 dp[children] = dp[children - 1] + 1;
+                // 가장 긴 오름차순 부분 수열의 길이 추적
                 answer = Math.max(answer, dp[children]);
             }
 
