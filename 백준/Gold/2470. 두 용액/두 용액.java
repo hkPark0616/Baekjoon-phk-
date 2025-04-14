@@ -34,7 +34,7 @@ public class Main {
         int ml = solutions[start];
         int mr = solutions[end];
 
-        while(start < end) {
+        while(start < end) { // 같은 위치에서의 비교는 무의미 -> 서로 다른 두 용액
             int comb = solutions[start] + solutions[end];
 
             if(Math.abs(comb) < Math.abs(MIN)) {
