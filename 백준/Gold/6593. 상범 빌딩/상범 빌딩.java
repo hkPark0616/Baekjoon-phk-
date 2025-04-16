@@ -13,6 +13,13 @@ public class Main {
     static int[][] deltas = {{0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {1, 0, 0}, {-1, 0, 0}};
     static StringBuilder sb = new StringBuilder();
 
+    static class Node {
+        int l, r, c, time;
+        Node(int l, int r, int c, int time){
+            this.l = l; this.r = r; this.c = c; this.time = time;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -60,18 +67,18 @@ public class Main {
     }
 
     static int bfs(){
-        ArrayDeque<int[]> que = new ArrayDeque<>();
+        ArrayDeque<Node> que = new ArrayDeque<>();
         visited[startL][startR][startC] = true;
-        que.offer(new int[]{startL, startR, startC, 0});
+        que.offer(new Node(startL, startR, startC, 0));
 
         while(!que.isEmpty()){
-            int[] cur = que.poll();
-            int l = cur[0];
-            int r = cur[1];
-            int c = cur[2];
-            int m = cur[3];
+            Node cur = que.poll();
+            int l = cur.l;
+            int r = cur.r;
+            int c = cur.c;
+            int m = cur.time;
 
-            if(map[l][r][c] == 'E'){
+            if(l == endL && r == endR && c == endC){
                 return m;
             }
 
@@ -84,11 +91,11 @@ public class Main {
                     && !visited[nl][nr][nc]
                     && (map[nl][nr][nc] == '.' || map[nl][nr][nc] == 'E')){
                     visited[nl][nr][nc] = true;
-                    que.offer(new int[]{nl, nr, nc, m + 1});
+                    que.offer(new Node(nl, nr, nc, m + 1));
                 }
             }
         }
-        
+
         return -1;
     }
 }
