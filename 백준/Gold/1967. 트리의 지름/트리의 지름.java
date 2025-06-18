@@ -5,17 +5,15 @@ import java.io.*;
 class Main {
     static int N;
     static List<List<Node>> graph = new ArrayList<>();
-    static class Node implements Comparable<Node> {
+    static boolean[] visited;
+    static int maxDist = 0;
+    static int farthestNode = 0;
+    static class Node {
         int to, weight;
         
         public Node(int to, int weight) {
             this.to = to;
             this.weight = weight;
-        }
-
-        @Override
-        public int compareTo(Node o) {
-            return this.weight - o.weight;
         }
     }
 
@@ -38,50 +36,31 @@ class Main {
             graph.get(from).add(new Node(to, weight));
             graph.get(to).add(new Node(from, weight));
         }
+        visited = new boolean[N + 1];
 
-        // 트리의 끝 점 찾기
-        int[] firstDist = Dijkstra(1);
-        int far = 1; // 1번 노드부터 시
-        for (int i = 2; i <= N; i++) {
-            if (firstDist[i] > firstDist[far]) {
-                far = i;
-            }
-        }
+        // 1번 도드에서 가장 먼 노드 찾기
+        dfs(1, 0);
 
-        // 트리의 끝 점(far)으로부터 가장 먼 거리 찾기
-        int[] secondDist = Dijkstra(far);
-        int diameter = 0;
-        for(int i = 1; i <= N; i++) {
-            diameter = Math.max(diameter, secondDist[i]);
-        }
+        // 가장 먼 노드(farthestNode)에서 트리 지름 찾기
+        visited = new boolean[N + 1];
+        maxDist = 0;
+        dfs(farthestNode, 0);
 
-        System.out.println(diameter);
+        System.out.println(maxDist);
     }
 
-    static int[] Dijkstra(int start) {
-        int[] dist = new int[N + 1];
-        boolean[] visited = new boolean[N + 1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[start] = 0;
+    static void dfs(int cur, int dist) {
+        visited[cur] = true;
 
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(start, 0));
-
-        while(!pq.isEmpty()) {
-            Node cur = pq.poll();
-            int now = cur.to;
-
-            if(visited[now]) continue;
-            visited[now] = true;
-
-            for(Node nextNode: graph.get(now)) {
-                if(!visited[nextNode.to] && dist[nextNode.to] > dist[now] + nextNode.weight) {
-                    dist[nextNode.to] = dist[now] + nextNode.weight;
-                    pq.offer(new Node(nextNode.to, dist[nextNode.to]));
-                }
-            }
+        if(dist > maxDist) {
+            maxDist = dist;
+            farthestNode = cur;
         }
 
-        return dist;
+        for(Node nextNode: graph.get(cur)) {
+            if(!visited[nextNode.to]){
+                dfs(nextNode.to, dist + nextNode.weight);
+            }
+        }
     }
 }
