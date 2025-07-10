@@ -4,9 +4,7 @@ import java.io.*;
 
 class Main {
     static int N, M;
-    static boolean[] visited;
-    static List<List<Integer>> graph = new ArrayList<>();
-    static List<List<Integer>> reverseGraph = new ArrayList<>();
+    static boolean[][] adj;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,52 +13,47 @@ class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        for(int i = 0; i <= N; i++) {
-            graph.add(new ArrayList<>()); // 큰 학생
-            reverseGraph.add(new ArrayList<>()); // 작은 학생
-        }
+        adj = new boolean[N + 1][N + 1];
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            // 키가 a보다 b가 크다
+            // 키가 a보다 b가 크다 -> adj[a][b];
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
 
-            graph.get(a).add(b);
-            reverseGraph.get(b).add(a);
+            adj[a][b] = true;
+        }
+
+
+        System.out.println(floyd());
+    }
+
+    static int floyd() {
+        for(int k = 1; k <= N; k++) {
+            for(int i = 1; i <= N; i++) {
+                for(int j = 1; j <= N; j++) {
+                    if(adj[i][k] && adj[k][j]) {
+                        adj[i][j] = true;
+                    }
+                }
+            }
         }
 
         int result = 0;
-
-        // 학생 돌면서 작은애, 큰애 연결된 수 구하고
-        // 더해서 N - 1 이면 순서를 아는 학생
         for(int i = 1; i <= N; i++) {
-            visited = new boolean[N + 1];
-            int taller = dfs(i, graph);
+            int known = 0;
+            for(int j = 1; j <= N; j++) {
+                if(i == j) continue;
 
-            visited = new boolean[N + 1];
-            int smaller = dfs(i, reverseGraph);
-
-            if(taller + smaller == N - 1) {
-                result++;
+                // 해당 학생보다 키 작은애 또는 키 큰애를 모두 알면 순서를 알 수 있음
+                if(adj[i][j] || adj[j][i]) {
+                    known++;
+                }
             }
+
+            if(known == N - 1) result++;
         }
-
-
-        System.out.println(result);
-    }
-
-    static int dfs(int cur, List<List<Integer>> g) {
-        int count = 0;
-        visited[cur] = true;
-
-        for(int nextStudent: g.get(cur)) {
-            if(!visited[nextStudent]) {
-                count += dfs(nextStudent, g) + 1; //  + 1 은 직접 연결된 학생 포함
-            }
-        }
-
         
-        return count;
+        return result;
     }
 }
