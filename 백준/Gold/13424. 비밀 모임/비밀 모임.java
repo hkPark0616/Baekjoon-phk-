@@ -94,6 +94,8 @@ class Main {
 
         while(!pq.isEmpty()) {
             Edge cur = pq.poll();
+            
+            if(dist[cur.to] < cur.weight) continue;
 
             for(Edge next: graph.get(cur.to)) {
                 if(dist[next.to] > cur.weight + next.weight) {
