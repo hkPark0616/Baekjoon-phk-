@@ -39,7 +39,8 @@ class Main {
 
     static void topologySort() {
         ArrayDeque<Integer> q = new ArrayDeque<>();
-        List<Integer> results = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        int cnt = 0;
 
         for(int i = 1; i <= N; i++) {
             if(indegree[i] == 0) {
@@ -50,7 +51,8 @@ class Main {
         while(!q.isEmpty()) {
             int cur = q.poll();
 
-            results.add(cur);
+            sb.append(cur).append("\n");
+            cnt++;
             
             for(int n: graph.get(cur)) {
                 indegree[n]--;
@@ -61,8 +63,8 @@ class Main {
             }
         }
 
-        if (results.size() == N) {
-            for (int num : results) System.out.println(num);
+        if (cnt == N) {
+            System.out.println(sb.toString());
         } else {
             System.out.println(0);
         }
