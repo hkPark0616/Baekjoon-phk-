@@ -44,6 +44,8 @@ class Main {
             int v = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
 
+            if(type[u] == type[v]) continue;
+
             pq.offer(new Edge(u, v, d));
         }
 
@@ -51,8 +53,6 @@ class Main {
         int cnt = 0;
         while(!pq.isEmpty()) {
             Edge e = pq.poll();
-
-            if (type[e.from] == type[e.to]) continue;
 
             if(!isSame(e.from, e.to)) {
                 union(e.from, e.to);
