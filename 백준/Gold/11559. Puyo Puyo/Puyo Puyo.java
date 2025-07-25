@@ -3,8 +3,6 @@ import java.lang.*;
 import java.io.*;
 
 class Main {
-    static int N = 12;
-    static int M = 6;
     static char[][] field = new char[12][6];
     static boolean[][] visited;
     static int[][] deltas = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
