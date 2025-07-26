@@ -3,8 +3,10 @@ import java.lang.*;
 import java.io.*;
 
 class Main {
-    static int A, B;
-    static String[] cmd = {"D", "S", "L", "R"};
+    static int[] prev = new int[10000]; // 이전 숫자
+    static char[] how = new char[10000]; // 어떤 명령어 사용해서 왔는지
+    static boolean[] visited = new boolean[10000];
+    static char[] cmd = {'D', 'S', 'L', 'R'};
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,8 +17,8 @@ class Main {
 
         for(int tc = 0; tc < T; tc++) {
             st = new StringTokenizer(br.readLine());
-            A = Integer.parseInt(st.nextToken());     
-            B = Integer.parseInt(st.nextToken());
+            int A = Integer.parseInt(st.nextToken());     
+            int B = Integer.parseInt(st.nextToken());
 
             String answer = bfs(A, B);
             sb.append(answer).append("\n");
@@ -46,30 +48,35 @@ class Main {
     }
 
     static String bfs(int start, int target) {
-        boolean[] visited = new boolean[10000];
-        String[] commandStr = new String[10000];
+        Arrays.fill(visited, false);
         ArrayDeque<Integer> q = new ArrayDeque<>();
         q.offer(start);
         visited[start] = true;
-        commandStr[start] = "";
+        prev[start] = -1;
 
         while(!q.isEmpty()) {
             int cur = q.poll();
 
-            if(cur == target) return commandStr[cur];
+            if(cur == target) break;
 
             for(int i = 0; i < 4; i++) {
                 int nextNum = operate(i, cur);
 
                 if(!visited[nextNum]) {
                     visited[nextNum] = true;
+                    prev[nextNum] = cur;
+                    how[nextNum] = cmd[i];
                     q.offer(nextNum);
-                    commandStr[nextNum] = commandStr[cur] + cmd[i];
                 }
             }
-            
         }
 
-        return "";
+        // target 숫자에서 역으로 가면서 사용했던 명령어 저장하고 거꾸로 리턴
+        StringBuilder cmdPath = new StringBuilder();
+        for(int cur = target; prev[cur] != -1; cur = prev[cur]) {
+            cmdPath.append(how[cur]);
+        }
+
+        return cmdPath.reverse().toString();
     }
 }
