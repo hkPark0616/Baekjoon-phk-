@@ -60,10 +60,10 @@ class Main {
     static void floyd() {
         for(int k = 0; k < N; k++) {
             for(int i = 0; i < N; i++) {
-                if(i == k) continue;
                 for(int j = 0; j < N ; j++) {
-                    if(i == j || j == k) continue;
-                    dist[i][j] = Math.min(dist[i][j], dist[i][k] + dist[k][j]);
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
                 }
             }
         }
