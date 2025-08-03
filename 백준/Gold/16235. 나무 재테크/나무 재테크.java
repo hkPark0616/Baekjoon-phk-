@@ -8,19 +8,14 @@ class Main {
     static Cell[][] map;
     static List<DeadTree> deadTrees = new ArrayList<>();
     static class Cell {
-        List<Tree> trees = new ArrayList<>(); // 각 칸 나무들
+        ArrayDeque<Tree> trees = new ArrayDeque<>(); // 각 칸 나무들
         int nutrition = 5; // 초기 영양 상태
     }
-    static class Tree implements Comparable<Tree> {
+    static class Tree {
         int age;
         
         public Tree(int age) {
             this.age = age;
-        }
-
-        @Override
-        public int compareTo(Tree o) {
-            return Integer.compare(this.age, o.age);
         }
     }
     static class DeadTree {
@@ -85,21 +80,20 @@ class Main {
     static void spring() {
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < N; j++) {
-                List<Tree> aliveTrees = new ArrayList<>();
-                Collections.sort(map[i][j].trees);
-
-                for(Tree tree: map[i][j].trees) {
-                    int n = map[i][j].nutrition;
-                    if(map[i][j].nutrition >= tree.age) {
+                ArrayDeque<Tree> alive = new ArrayDeque<>();
+                
+                while (!map[i][j].trees.isEmpty()) {
+                    Tree tree = map[i][j].trees.pollFirst(); // 어린 나무부터
+                    if (map[i][j].nutrition >= tree.age) {
                         map[i][j].nutrition -= tree.age;
                         tree.age++;
-                        aliveTrees.add(tree);
+                        alive.addLast(tree);
                     } else {
                         deadTrees.add(new DeadTree(i, j, tree.age));
                     }
                 }
-
-                map[i][j].trees = aliveTrees;
+                
+                map[i][j].trees = alive;
             }            
         }
     }
@@ -123,7 +117,7 @@ class Main {
                             int nj = j + delta[1];
 
                             if(ni >= 0 && ni < N && nj >= 0 && nj < N) {
-                                map[ni][nj].trees.add(new Tree(1));
+                                map[ni][nj].trees.addFirst(new Tree(1));
                             }
                         }
                     }
