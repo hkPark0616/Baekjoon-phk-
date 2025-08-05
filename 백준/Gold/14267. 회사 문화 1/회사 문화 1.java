@@ -35,9 +35,11 @@ class Main {
 
         dfs(1); // 사장부터 시작
 
-        for(int i = 1; i <=N; i++) {
-            System.out.print(praise[i] + " ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 1; i <= N; i++) {
+            sb.append(praise[i]).append(" ");
         }
+        System.out.println(sb);
     }
 
     static void dfs(int cur) {
