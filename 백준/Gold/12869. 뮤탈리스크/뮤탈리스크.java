@@ -19,18 +19,12 @@ class Main {
         for(int i = 0; i < N; i++) {
             svc[i] = Integer.parseInt(st.nextToken());
         }
-        for (int i = 0; i <= 60; i++) {
-            for (int j = 0; j <= 60; j++) {
-                  Arrays.fill(hp[i][j], -1);       
-            }        
-        }
 
         bfs();
     }
 
     static void bfs() {
         ArrayDeque<int[]> q = new ArrayDeque<>();
-        hp[svc[0]][svc[1]][svc[2]] = 0;
         q.offer(new int[] {svc[0], svc[1], svc[2]});
 
         while(!q.isEmpty()) {
@@ -49,7 +43,7 @@ class Main {
                 int nb = Math.max(0, b - damage[1]);
                 int nc = Math.max(0, c - damage[2]);
 
-                if(hp[na][nb][nc] == -1) {
+                if(hp[na][nb][nc] == 0) {
                     hp[na][nb][nc] = hp[a][b][c] + 1;
                     q.offer(new int[] {na, nb, nc});
                 }
