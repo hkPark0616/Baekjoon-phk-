@@ -46,19 +46,25 @@ class Main {
                         int ny = Y - X;
                         int nz = sum - nx - ny;
 
-                        if(!visited[nx][ny]) {
-                            visited[nx][ny] = true;
-                            q.offer(new int[] {nx, ny});
+                        int na = Math.min(nx, ny);
+                        int nb = Math.max(nx, ny);
+
+                        if(!visited[na][nb]) {
+                            visited[na][nb] = true;
+                            q.offer(new int[] {na, nb});
                         }
                     } else {
                         int nx = Y * 2;
                         int ny = X - Y;
                         int nz = sum - nx - ny;
 
-                        if(!visited[nx][ny]) {
-                            visited[nx][ny] = true;
-                            q.offer(new int[] {nx, ny});
-                        }
+                        int na = Math.min(nx, ny);
+                        int nb = Math.max(nx, ny);
+
+                        if(!visited[na][nb]) {
+                            visited[na][nb] = true;
+                            q.offer(new int[] {na, nb});
+                        }  
                     }
                 }
             }
