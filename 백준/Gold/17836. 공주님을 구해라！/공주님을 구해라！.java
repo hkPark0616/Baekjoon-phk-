@@ -42,7 +42,8 @@ class Main {
             int y = cur[1];
             int time = cur[2];
             int gram = cur[3];
-
+            
+            if(time > T) continue;
             if(x == N - 1 && y == M - 1) {
                 return time;
             }
