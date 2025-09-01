@@ -25,9 +25,9 @@ class Main {
             int c = Integer.parseInt(st.nextToken());
 
             dayGrow(a, b, c);
-            grow();
         }
-
+        
+        grow();
         printMap();
     }
 
