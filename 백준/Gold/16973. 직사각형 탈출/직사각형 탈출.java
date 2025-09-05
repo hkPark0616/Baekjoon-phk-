@@ -5,7 +5,7 @@ import java.io.*;
 class Main {
     static int N, M;
     static int H, W, sr, sc, fr, fc;
-    static int[][] map;
+    static int[][] map, sum;
     static boolean[][] visited;
     static int[][] deltas = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
     
@@ -17,12 +17,19 @@ class Main {
         M = Integer.parseInt(st.nextToken());
 
         map = new int[N][M];
+        sum = new int[N + 1][M + 1];
         visited = new boolean[N][M];
 
         for(int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j < M; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        for(int i = 1; i <= N; i++) {
+            for(int j = 1; j <= M; j++) {
+                sum[i][j] = map[i - 1][j - 1] + sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1];
             }
         }
         
@@ -67,14 +74,13 @@ class Main {
     }
 
     static boolean canMove(int r, int c) {
-        if (r + H - 1 >= N || c + W - 1 >= M) return false;
+        int r2 = r + H - 1;
+        int c2 = c + W - 1;
         
-        for (int i = r; i < r + H; i++) {
-            for (int j = c; j < c + W; j++) {
-                if (map[i][j] == 1) return false;
-            }
-        }
+        if (r2 >= N || c2 >= M) return false;
 
-        return true;
+        int result = sum[r2 + 1][c2 + 1] - sum[r2 + 1][c] - sum[r][c2 + 1] + sum[r][c];
+
+        return result == 0;
     }
 }
