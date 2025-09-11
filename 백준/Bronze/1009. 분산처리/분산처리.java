@@ -1,49 +1,31 @@
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
 
-	static int T;
-	public static void main(String[] args) throws IOException {
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		T = Integer.parseInt(br.readLine());
-		
-		StringBuilder sb = new StringBuilder();
-		
-		int a;
-		int b;
-		int ans;
-		while (T-- >0) {
-			
-			// 컴퓨터 10대는 고정
-			String [] nums  = br.readLine().split(" ");
-			a = Integer.parseInt(nums[0]);
-			b = Integer.parseInt(nums[1]);;;
-			
-			ans = a;
-			for (int i=1;i<b;i++) {
-				ans *= a;
-				ans %= 10;
-				
-				//System.out.println(ans);
-			}
-			ans %= 10;
-			if (ans==0) {
-				ans = 10;
-			}
-			
-			
-			sb.append(ans).append("\n");
-			
-			
-		}
-		System.out.println(sb);
-		
-		
-	}
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+
+
+        for(int i = 0;i < t;i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int r = 1;
+            for (int j = 0;j < b;j++){
+                r = (r * a) % 10;
+            }
+            if (r == 0){
+                System.out.println(10);
+            }else{
+                System.out.println(r);
+            }
+
+        }
+
+
+
+
+    }
 
 }
