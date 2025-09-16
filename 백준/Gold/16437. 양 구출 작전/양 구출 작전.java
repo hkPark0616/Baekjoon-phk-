@@ -4,7 +4,6 @@ import java.io.*;
 
 class Main {
     static int N;
-    static char[] type;
     static long[] cnt;
     static List<List<Integer>> graph = new ArrayList<>();
     
@@ -14,7 +13,6 @@ class Main {
 
         N = Integer.parseInt(br.readLine());
 
-        type = new char[N+1];
         cnt = new long[N+1];
         for(int i = 0; i <= N; i++) graph.add(new ArrayList<>());
 
@@ -24,8 +22,7 @@ class Main {
             int a = Integer.parseInt(st.nextToken());
             int p = Integer.parseInt(st.nextToken());
 
-            type[i] = c;
-            cnt[i] = a;
+            cnt[i] = c == 'S' ? a : -a;
             graph.get(p).add(i);
         }
 
@@ -37,9 +34,8 @@ class Main {
         
         for(int c: graph.get(cur)) sum += dfs(c);
 
-        if(type[cur] == 'W') sum -= cnt[cur];
-        else if(type[cur] == 'S') sum += cnt[cur];
+        sum += cnt[cur];
 
-        return sum <= 0 ? 0 : sum;
+        return Math.max(sum, 0);
     }    
 }
