@@ -35,7 +35,7 @@ class Main {
             }
         }
 
-        Collections.sort(results);
+        // Collections.sort(results);
         
         sb.append(results.size()).append("\n");
         for(String result: results) sb.append(result).append("\n");
