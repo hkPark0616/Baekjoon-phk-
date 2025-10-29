@@ -28,17 +28,16 @@ class Main {
             return;
         }
         
-        boolean[] moved = new boolean[M];
+        List<Integer> boxList = new ArrayList<>(Arrays.asList(boxes));
         int cnt = 0;
         int time = 0;
-        while(cnt < M) {
+        while(!boxList.isEmpty()) {
             int idx = 0;
-            for(int i = 0; i < N; i++) {
-                while(idx < M) {
-                    if(!moved[idx] && cranes[i] >= boxes[idx]) {
-                        moved[idx] = true;
-                        cnt++;
-                        idx++;
+            for(int crane: cranes) {
+                if(idx >= boxList.size()) break;
+                while(idx < boxList.size()) {
+                    if(crane >= boxList.get(idx)) {
+                        boxList.remove(idx);
                         break;
                     }
                     idx++;
